@@ -1,12 +1,16 @@
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
-        seen={}
-        for i in nums:
-            seen[i]=seen.get(i,0)+1
-        
-        for num in seen:
-            if seen[num]==1:
-                return num
+        result = 0
+        for i in range(32):
+            count = 0
+            for j in nums:
+                if (j >> i) & 1:      # is bit b set in n?
+                    count += 1
+            if count % 3 != 0:
+                result |= (1 << i)   # set bit b in result
+        if result >= 2**31:
+            result -= 2**32
+        return result
         
 
 # Synced seamlessly with LeetHub Pro
